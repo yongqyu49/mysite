@@ -1,0 +1,24 @@
+<!-- <h1>{{ question.question_text }}</h1>
+<ul>
+    {% for choice in question.choice_set.all %} choice_set.all: 외래키를 갖는 choice들을 가져와라
+    <li>{{ choice.choice_text }}</li>
+    {% endfor %}
+</ul> -->
+
+<!-- 에러메세지를 전달 받게되면 실행 -->
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+<form action="{% url 'polls:vote' question.id %}" method="post">
+    {% csrf_token %} <!-- 사이트간 위조요청(해킹방지) - form태그 안에 입력해주기 -->
+    <fieldset>
+        <legend><h1>{{ question.question_text }}</h1></legend>
+        {% for choice in question.choice_set.all %}
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+            <br>
+        {% endfor %}
+    </fieldset>
+    <input type="submit" value="Vote">
+</form>
